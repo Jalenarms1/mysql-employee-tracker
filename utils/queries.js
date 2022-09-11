@@ -21,6 +21,9 @@ const glueFirstNLast = (obj) => {
     let id = obj.id;
     return `${id} ${first} ${last}`
 }
+// db.query("SELECT * FROM employee JOIN roles", (err, res) => {
+//     console.log(res)
+// })
 
 
 
@@ -55,7 +58,7 @@ db.query("SELECT * FROM departments", (err, res) => {
 db.query("SELECT * FROM roles", (err, res) => {
     res.forEach(item => {
         rolesArr.push(item);  
-        roleNames.push(`${item.id} ${item.title}`)
+        roleNames.push(`${item.title}`)
     })
 
 })
