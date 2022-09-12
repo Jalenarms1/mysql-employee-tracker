@@ -1,3 +1,5 @@
+// file queries the databse and inserts the requested info into each array to be used in the index.js file
+
 let deptArr = [];
 let deptNames = [];
 let rolesArr = [];

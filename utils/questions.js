@@ -1,3 +1,5 @@
+// this files is used to store each set of questions for the index.js file
+
 const { deptNames, roleNames, managerNames, employeeNames, } = require("./queries");
 const startQs = [
     {
@@ -237,6 +239,16 @@ const deleteQs = [
         "choices": deptNames,
         when: answers => {
             return answers.delChoice === "Departments";
+        }
+    },
+    {
+        "name": "advancer",
+        "message": "Are there any more actions you would like to preform on your database? y/n",
+        validate: advancer => {
+            if(advancer.trim() === "" || !['y', 'Y', "N", 'n'].includes(advancer)){
+                return "Enter y for yes and n for no"
+            }
+            return true 
         }
     }
 ]

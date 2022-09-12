@@ -6,6 +6,7 @@ const { deptArr, deptNames, rolesArr, roleNames, managerNames, holdManagers, emp
 
 const questions = require("./utils/questions");
 
+// this function will construct the list of employee names to show id and first and last name in one list item
 const glueFirstNLast = (obj) => {
     let first = obj.first_name;
     let last = obj.last_name;
@@ -13,6 +14,7 @@ const glueFirstNLast = (obj) => {
     return `${id} ${first} ${last}`
 }
 
+//this function will take the salary input from the user and remove the comma if there was one included, before inserting into the database
 const numFix = (str) => {
     if(str.includes(",")){
         let commaIndex = str.indexOf(",");
@@ -24,6 +26,7 @@ const numFix = (str) => {
     return str
 }
 
+//creates connection to database
 const db = mysql.createConnection({
     "host": "localhost",
     "user": "root",
@@ -31,9 +34,11 @@ const db = mysql.createConnection({
     "database": "employees_db"
 })
 
+// class to control flow of questions
 class Questions {
     constructor(){}
 
+    //directs the user based on which selection is made
     starter(){
         inquirer
             .prompt(questions.startQs)
@@ -70,6 +75,7 @@ class Questions {
             })
     }
 
+    //queries db to see all departments
     viewAllDept(){
         db.query("SELECT * FROM departments", (err, res) => {
             if(err){
@@ -92,6 +98,7 @@ class Questions {
         
     }
 
+    //queries db to see all employees
     viewAllEmployees(){
         db.query("SELECT * FROM employee", (err, res) => {
             if(err){
@@ -112,6 +119,7 @@ class Questions {
         })
     }
 
+    //queries db to see all roles
     viewAllRoles(){
         db.query("SELECT roles.id, title, FORMAT(salary, 2) AS salary, department_id, departments.name AS department_name FROM roles JOIN departments ON roles.department_id = departments.id", (err, res) => {
             if(err){
@@ -135,6 +143,7 @@ class Questions {
 
     }
 
+    // will take the user input and insert into the database a new department
     addDept(){
         inquirer
             .prompt(questions.addDeptQs)
@@ -160,6 +169,7 @@ class Questions {
             
     }
 
+    //will take the user input and construct a new item to add into the roles table
     addRole(){
         inquirer
             .prompt(questions.addRoleQs)
@@ -188,6 +198,7 @@ class Questions {
             })
     }
 
+    // will take the user input and insert the new employee into the employee table with all of their details
     addEmployee(){
         inquirer
             .prompt(questions.addEmployeeQs)
@@ -237,6 +248,7 @@ class Questions {
             })
     }
 
+    // will take the user input to update an existing item from each table
     updateEmployeeRole(){
         inquirer 
             .prompt(questions.updateQs)
@@ -289,7 +301,7 @@ class Questions {
                         })
                         break;
                     case "Manager": 
-                        db.query("UPDATE employee SET manager_id = ? WHERE id = ?,", [parseFloat(response.managerChange), parseFloat(response.employee)], (err, res) => {
+                        db.query("UPDATE employee SET manager_id = ? WHERE id = ?", [parseFloat(response.managerChange), parseFloat(response.employee)], (err, res) => {
                             if(err) console.log(err);
                             if(!err){
                                 console.log(res)
@@ -308,6 +320,7 @@ class Questions {
             })
     }
 
+    // will take the user input to delete an existing item from each of the tables
     deleteItem(){
         inquirer
             .prompt(questions.deleteQs)
@@ -321,6 +334,11 @@ class Questions {
                             if(!err){
                                 console.log(res)
                             }
+                            if(response.advancer.toLowerCase() === "y"){
+                                this.starter();
+                            } else{
+                                return;
+                            }
                         })
                         break;
                     case "Roles":
@@ -331,6 +349,11 @@ class Questions {
                             if(!err){
                                 console.log(res);
                             }
+                            if(response.advancer.toLowerCase() === "y"){
+                                this.starter();
+                            } else{
+                                return;
+                            }
                         })
                         break;
                     case "Departments":
@@ -340,6 +363,11 @@ class Questions {
                             }
                             if(!err){
                                 console.log(res);
+                            }
+                            if(response.advancer.toLowerCase() === "y"){
+                                this.starter();
+                            } else{
+                                return;
                             }
                         })
 
