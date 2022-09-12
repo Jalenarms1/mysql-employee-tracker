@@ -60,6 +60,9 @@ class Questions {
                     case "Update employee role":
                         this.updateEmployeeRole();
                         break;
+                    case "Delete item":
+                        this.deleteItem();
+                        break;
                     default:
                         break;
 
@@ -304,7 +307,47 @@ class Questions {
                 }
             })
     }
+
+    deleteItem(){
+        inquirer
+            .prompt(questions.deleteQs)
+            .then(response => {
+                switch (response.delChoice){
+                    case "Employees":
+                        db.query("DELETE FROM employee WHERE id = ?", parseFloat(response.delEmp), (err, res) => {
+                            if(err){
+                                console.log(err)
+                            }
+                            if(!err){
+                                console.log(res)
+                            }
+                        })
+                        break;
+                    case "Roles":
+                        db.query("DELETE FROM roles WHERE title = ?", response.delRole, (err, res) => {
+                            if(err){
+                                console.log(err);
+                            }
+                            if(!err){
+                                console.log(res);
+                            }
+                        })
+                        break;
+                    case "Departments":
+                        db.query("DELETE FROM departments WHERE name = ?", response.delDept, (err, res) => {
+                            if(err){
+                                console.log(err)
+                            }
+                            if(!err){
+                                console.log(res);
+                            }
+                        })
+
+                }
+            })
+    }
 }
+
 
 var startIt = new Questions;
 

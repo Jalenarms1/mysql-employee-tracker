@@ -4,7 +4,7 @@ const startQs = [
         "type": "list",
         "name": "action",
         "message": "Choose which of these you would like to do next.",
-        "choices": ["View all departments", "View all employees", "View all roles", "Add a department", "Add a role", "Add an employee", "Update employee role"]
+        "choices": ["View all departments", "View all employees", "View all roles", "Add a department", "Add a role", "Add an employee", "Update employee role", "Delete item"]
     }
 ]
 
@@ -205,11 +205,48 @@ const advQs = [
     }
 ]
 
+const deleteQs = [
+    {
+        "type": "list",
+        "name": "delChoice",
+        "message": "Choose which category you would like to delete from.",
+        "choices": ["Employees", "Roles", "Departments"]
+    },
+    {
+        "type": "list",
+        "name": "delEmp",
+        "message": "Select which employee you would like to remove",
+        "choices": employeeNames,
+        when: answers => {
+            return answers.delChoice === "Employees";
+        }
+    },
+    {
+        "type": "list",
+        "name": "delRole",
+        "message": "Select which role you would like to remove",
+        "choices": roleNames,
+        when: answers => {
+            return answers.delChoice === "Roles";
+        }
+    },
+    {
+        "type": "list",
+        "name": "delDept",
+        "message": "Select which department you would like to remove",
+        "choices": deptNames,
+        when: answers => {
+            return answers.delChoice === "Departments";
+        }
+    }
+]
+
 module.exports = {
     startQs, 
     addDeptQs, 
     addRoleQs, 
     addEmployeeQs, 
     updateQs,
-    advQs
+    advQs,
+    deleteQs
 }
