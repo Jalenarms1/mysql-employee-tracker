@@ -175,7 +175,6 @@ class Questions {
             .prompt(questions.addRoleQs)
             .then(response => {
                 let deptId;
-                console.log(numFix(response.salary))
                 deptArr.forEach(item => {
                     if(response.dept === item.name){
                         deptId = item.id

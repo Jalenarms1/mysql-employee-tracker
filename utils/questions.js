@@ -135,7 +135,7 @@ const updateQs = [
         "type": "list",
         "name": "action",
         "message": "Choose which information you would like to update for the employee.",
-        "choices": ["First Name", "Last Name", "Role", "Manager", "Salary"]
+        "choices": ["First Name", "Last Name", "Role", "Manager"]
     },
     {
         "name": "firstChange",
